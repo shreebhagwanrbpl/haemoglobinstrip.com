@@ -15,26 +15,22 @@ export default function WhyChooseUs() {
     {
       icon: <Microscope size={30} />,
       title: "Advanced Technology",
-      description:
-        "Modern biomedical and diagnostic equipment for accurate healthcare solutions.",
+      description: "Point-of-care hemoglobin analyzers designed to deliver lab-quality results in less than 15 seconds.",
     },
     {
       icon: <ShieldCheck size={30} />,
       title: "Trusted Quality",
-      description:
-        "Reliable and certified diagnostic systems with premium quality standards.",
+      description: "Certified testing strips selected for high batch consistency and reliable anemia screening.",
     },
     {
       icon: <HeartPulse size={30} />,
       title: "Healthcare Focused",
-      description:
-        "Delivering healthcare-driven biomedical solutions with precision and care.",
+      description: "We help healthcare campaigns select the right diagnostic systems with complete compatibility checks.",
     },
     {
       icon: <BadgeCheck size={30} />,
       title: "Expert Support",
-      description:
-        "Professional consultation and technical support for all medical needs.",
+      description: "Responsive client consultation and operational support for hemoglobin testing devices and cuvettes.",
     },
   ];
 
@@ -44,9 +40,9 @@ export default function WhyChooseUs() {
 
         {/* Section Title */}
         <SectionTitle
-          badge="Why Choose Us"
-          title="Trusted Biomedical Excellence"
-          description="We deliver innovative diagnostic technologies and biomedical solutions with precision, trust, and unmatched service quality."
+          badge="What Sets Our Testing Supply Apart"
+          title="Precision Hemoglobin Sourcing"
+          description="We focus on point-of-care hemoglobin systems, accurate blood testing consumables, and reliable client service."
           center
         />
 

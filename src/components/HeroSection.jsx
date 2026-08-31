@@ -7,13 +7,10 @@ import Image from "next/image";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-import CBG from "../components/img/CBG.png";
-
+import { usePathname } from "next/navigation";
 import {
   ArrowRight,
   ShieldCheck,
-  Microscope,
-  BadgeCheck,
 } from "lucide-react";
 
 export default function HeroSection({ city }) {
@@ -26,11 +23,13 @@ export default function HeroSection({ city }) {
     button2Text: "",
   });
 
+  const pathname = usePathname();
+
   useEffect(() => {
     const fetchHeroData = async () => {
       try {
         const snap = await getDoc(
-          doc(db, "websites", "centralbiomedicals", "pages", "home")
+          doc(db, "websites", "haemoglobinstripcom", "pages", "home")
         );
 
         if (snap.exists()) {
@@ -47,38 +46,78 @@ export default function HeroSection({ city }) {
   }, []);
 
   // District Routing
-  const districtSlug = city
-    ? city.toLowerCase().replace(/\s+/g, "-")
-    : "";
+  const pathParts = pathname?.split("/").filter(Boolean) || [];
+  const staticRoutes = ["about", "services", "items", "contact"];
+  const districtSlug =
+    pathParts.length > 0 && !staticRoutes.includes(pathParts[0])
+      ? pathParts[0]
+      : "";
 
   const makeLink = (path) => {
     return districtSlug ? `/${districtSlug}${path}` : path;
   };
 
-  return (
-    <section className="gradient-bg overflow-hidden">
-      <div className="container-custom min-h-[85vh] py-20 lg:py-0 grid lg:grid-cols-2 gap-14 items-center">
 
+  return (
+    <section className="relative min-h-[65vh] flex items-center overflow-hidden bg-slate-950">
+      {/* Background Banner Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/Homepage.png"
+          alt="Raj Biosis Banner"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-transparent" />
+      </div>
+
+      {/* Main Container */}
+      <div
+        className="
+          container-custom
+          relative
+          z-10
+          py-12
+          lg:py-14
+          grid
+          lg:grid-cols-[minmax(0,1.65fr)_minmax(140px,0.35fr)]
+          gap-8
+          items-center
+        "
+      >
         {/* Left Content */}
         <motion.div
+          className="w-full max-w-5xl"
           initial={{ opacity: 0, y: 70 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-sky-100 text-sky-700 px-4 py-2 rounded-full text-sm font-semibold mb-7">
+          <div className="inline-flex items-center gap-2 bg-sky-500/20 text-sky-300 border border-sky-500/30 px-4 py-2 rounded-full text-sm font-semibold mb-5">
             <ShieldCheck size={18} />
             Trusted Biomedical Systems
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight text-slate-900">
+          <h1
+            className="
+              text-4xl
+              sm:text-5xl
+              lg:text-6xl
+              xl:text-7xl
+              font-bold
+              leading-[1.08]
+              text-white
+              w-full
+              max-w-5xl
+            "
+          >
             {loading ? (
               <div className="animate-pulse space-y-4">
-                <div className="h-12 bg-gray-200 rounded w-[80%]"></div>
-                <div className="h-12 bg-gray-200 rounded w-[60%]"></div>
-                <div className="h-12 bg-gray-200 rounded w-[70%]"></div>
+                <div className="h-12 bg-white/10 rounded w-[90%]"></div>
+                <div className="h-12 bg-white/10 rounded w-[80%]"></div>
               </div>
             ) : (
               <>
@@ -87,7 +126,7 @@ export default function HeroSection({ city }) {
                 {city && (
                   <>
                     <br />
-                    <span className="text-2xl lg:text-4xl text-sky-700 font-semibold">
+                    <span className="text-2xl sm:text-3xl lg:text-4xl text-sky-400 font-semibold">
                       in {city}
                     </span>
                   </>
@@ -98,14 +137,15 @@ export default function HeroSection({ city }) {
 
           {/* Description */}
           {loading ? (
-            <div className="animate-pulse mt-7 space-y-3">
-              <div className="h-4 bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-200 rounded w-[90%]"></div>
-              <div className="h-4 bg-gray-200 rounded w-[75%]"></div>
+            <div className="animate-pulse mt-5 space-y-3 max-w-4xl">
+              <div className="h-4 bg-white/10 rounded w-full"></div>
+              <div className="h-4 bg-white/10 rounded w-[90%]"></div>
+              <div className="h-4 bg-white/10 rounded w-[75%]"></div>
             </div>
           ) : (
-            <p className="mt-7 text-slate-600 text-lg leading-8 max-w-xl">
+            <p className="mt-5 text-slate-300 text-lg lg:text-xl leading-7 lg:leading-8 w-full max-w-4xl">
               {heroData.description}
+
               {city && (
                 <>
                   {" "}across <strong>{city}</strong>
@@ -115,23 +155,23 @@ export default function HeroSection({ city }) {
           )}
 
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-10">
+          <div className="flex flex-col sm:flex-row gap-4 mt-7">
             {loading ? (
               <>
-                <div className="animate-pulse h-12 w-44 bg-gray-200 rounded-lg"></div>
-                <div className="animate-pulse h-12 w-36 bg-gray-200 rounded-lg"></div>
+                <div className="animate-pulse h-12 w-44 bg-white/10 rounded-lg"></div>
+                <div className="animate-pulse h-12 w-36 bg-white/10 rounded-lg"></div>
               </>
             ) : (
               <>
-                <Link href={makeLink("/services")}>
-                  <button className="primary-btn flex items-center gap-2">
-                    {heroData.button1Text || "Explore Services"}
+                <Link href={makeLink("/items")}>
+                  <button className="primary-btn flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white border-none shadow-lg shadow-sky-600/30">
+                    {heroData.button1Text || "Explore Products"}
                     <ArrowRight size={18} />
                   </button>
                 </Link>
 
                 <Link href={makeLink("/contact")}>
-                  <button className="secondary-btn">
+                  <button className="secondary-btn bg-white/10 hover:bg-white/20 text-black border border-white/20">
                     {heroData.button2Text || "Contact Us"}
                   </button>
                 </Link>
@@ -140,93 +180,26 @@ export default function HeroSection({ city }) {
           </div>
 
           {/* Stats */}
-          <div className="flex flex-wrap gap-8 mt-12">
-
+          <div className="flex flex-wrap gap-8 lg:gap-12 mt-8">
             <div>
-              <h3 className="text-3xl font-bold text-slate-900">
-                10+
-              </h3>
-              <p className="text-slate-500">
-                Years Experience
-              </p>
+              <h3 className="text-3xl font-bold text-white">10+</h3>
+              <p className="text-slate-400">Years Experience</p>
             </div>
 
             <div>
-              <h3 className="text-3xl font-bold text-slate-900">
-                500+
-              </h3>
-              <p className="text-slate-500">
-                Products Delivered
-              </p>
+              <h3 className="text-3xl font-bold text-white">500+</h3>
+              <p className="text-slate-400">Products Delivered</p>
             </div>
 
             <div>
-              <h3 className="text-3xl font-bold text-slate-900">
-                100%
-              </h3>
-              <p className="text-slate-500">
-                Quality Assurance
-              </p>
+              <h3 className="text-3xl font-bold text-white">100%</h3>
+              <p className="text-slate-400">Quality Assurance</p>
             </div>
-
           </div>
         </motion.div>
 
-        {/* Right Side */}
-        <motion.div
-          initial={{ opacity: 0, x: 80 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-
-          <div className="glass-card rounded-[40px] p-6 card-shadow">
-            <Image
-              src={CBG}
-              alt="Central Biomedical"
-              width={1200}
-              height={900}
-              className="rounded-[28px] object-cover object-[20%_center] h-[350px] sm:h-[450px] lg:h-[550px] w-full"
-            />
-          </div>
-
-          {/* Floating Card 1 */}
-          <div
-            className="absolute top-10 -left-10 bg-white p-5 rounded-3xl shadow-xl hidden lg:flex items-center gap-4"
-            style={{ marginTop: "-27px" }}
-          >
-            <div className="bg-sky-100 p-3 rounded-2xl">
-              <Microscope className="text-sky-700" />
-            </div>
-
-            <div>
-              <h4 className="font-semibold">
-                Modern Labs
-              </h4>
-              <p className="text-sm text-slate-500">
-                Precision Equipment
-              </p>
-            </div>
-          </div>
-
-          {/* Floating Card 2 */}
-          <div className="absolute bottom-10 -right-8 bg-white p-5 rounded-3xl shadow-xl hidden lg:flex items-center gap-4">
-            <div className="bg-teal-100 p-3 rounded-2xl">
-              <BadgeCheck className="text-teal-700" />
-            </div>
-
-            <div>
-              <h4 className="font-semibold">
-                Trusted Quality
-              </h4>
-              <p className="text-sm text-slate-500">
-                Certified Solutions
-              </p>
-            </div>
-          </div>
-
-        </motion.div>
-
+        {/* Right Side Spacer */}
+        <div className="hidden lg:block h-[350px]" />
       </div>
     </section>
   );

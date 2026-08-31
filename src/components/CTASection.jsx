@@ -31,9 +31,8 @@ export default function CTASection({ city }) {
       ? pathParts[0]
       : "";
 
-  const districtSlug = city
-    ? city.toLowerCase().replace(/\s+/g, "-")
-    : urlDistrict;
+  const districtSlug = urlDistrict;
+
 
   const makeLink = (path) => {
     if (!districtSlug) return path;
@@ -76,16 +75,9 @@ export default function CTASection({ city }) {
                 Get In Touch
               </span>
 
-              <h2 className="text-4xl lg:text-6xl font-bold leading-tight">
-                Need Premium Biomedical Solutions?
-              </h2>
+              <h2 className="text-4xl lg:text-6xl font-bold leading-tight">Need Hemoglobin Testing Supplies?</h2>
 
-              <p className="mt-6 text-white/80 text-lg leading-8 max-w-xl">
-                Discover innovative diagnostic
-                systems and trusted biomedical
-                technologies tailored for modern
-                healthcare excellence.
-              </p>
+              <p className="mt-6 text-white/80 text-lg leading-8 max-w-xl">Procure precision hemoglobin test strips, point-of-care Hb meters, and clinical anemia screening tools for your diagnostic programs.</p>
             </div>
 
             <div className="flex lg:justify-end">
@@ -100,9 +92,7 @@ export default function CTASection({ city }) {
                 </h3>
 
                 <p className="mt-3 text-slate-600 leading-7">
-                  Contact our biomedical experts
-                  for consultation, equipment,
-                  and healthcare support.
+                  Connect with our hemoglobin diagnostics team to source rapid Hb testing meters and point-of-care screening kits.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">

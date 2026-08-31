@@ -2,75 +2,58 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import { getGlobalMetadata, SITE_URL } from "@/lib/seo";
 
-export const metadata = {
-  metadataBase: new URL(
-    "https://centralbiomedicals.com"
-  ),
-
-  title:
-    "Biomedical Equipment Supplier in India | Central Biomedicals",
-
-  description:
-    "Central Biomedicals supplies CBC Machines, Hematology Analyzers, Biochemistry Analyzers, ELISA Readers and laboratory equipment across India.",
-
-  keywords: [
-    "Biomedical Equipment Supplier",
-    "Laboratory Equipment Supplier",
-    "CBC Machine Supplier",
-    "Hematology Analyzer Supplier",
-    "Biochemistry Analyzer Supplier",
-    "Diagnostic Equipment Supplier",
-    "Medical Equipment Supplier India",
-  ],
-
-  openGraph: {
-    title:
-      "Biomedical Equipment Supplier in India | Central Biomedicals",
-
-    description:
-      "Supplier of biomedical and laboratory equipment across India.",
-
-    url: "https://centralbiomedicals.com",
-
-    siteName: "Central Biomedicals",
-
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Central Biomedicals",
-      },
-    ],
-
-    locale: "en_US",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-
-    title:
-      "Biomedical Equipment Supplier in India | Central Biomedicals",
-
-    description:
-      "Supplier of biomedical and laboratory equipment across India.",
-
-    images: ["/logo.png"],
-  },
-
-  alternates: {
-    canonical: "https://centralbiomedicals.com",
-  },
-};
+export const metadata = getGlobalMetadata({
+  title: "Hemoglobin Testing Strips & Hb Meters Supplier",
+  description: "Raj Biosis supplies CBC machines, hematology analyzers, biochemistry analyzers, ELISA readers, and laboratory equipment for healthcare facilities across India.",
+  canonical: "/",
+});
 
 export default function RootLayout({
   children,
 }) {
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Raj Biosis",
+    "url": SITE_URL,
+    "logo": `${SITE_URL}/logo.png`,
+    "description": "Supplier of biomedical, diagnostic and laboratory equipment across India.",
+    "telephone": "+91-9983123469",
+    "email": "rajbiosis@yahoo.in",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "F-4, 1st Floor, Plot No. 16, D-Block Tagor Nagar, on Ajmer-Delhi, 200 Feet Bypass Rd",
+      "addressLocality": "Jaipur",
+      "addressRegion": "Rajasthan",
+      "postalCode": "302021",
+      "addressCountry": "IN"
+    }
+  };
+
+  const webSiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Raj Biosis",
+    "url": SITE_URL
+  };
+
   return (
     <html lang="en">
       <body className="antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(orgSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webSiteSchema),
+          }}
+        />
         <Navbar />
 
         <main>

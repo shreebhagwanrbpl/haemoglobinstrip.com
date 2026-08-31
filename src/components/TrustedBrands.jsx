@@ -1,19 +1,18 @@
 export default function TrustedBrands() {
   const brands = [
-    "HealthCare+",
-    "BioMed Labs",
-    "MediCore",
-    "Life Diagnostics",
-    "Care Plus",
-  ];
+  "Mission Hb",
+  "HemoCue",
+  "URIT Hb",
+  "Acon Labs",
+  "DiaSpect"
+];
 
   return (
     <section className="py-16 bg-slate-50 border-y border-slate-100">
       <div className="container-custom">
 
         <p className="text-center text-slate-500 font-medium mb-10">
-          Trusted by Healthcare &
-          Biomedical Organizations
+          Sourcing Point-of-Care Hemoglobin Diagnostics
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">

@@ -3,9 +3,12 @@ export default function robots() {
         rules: {
             userAgent: "*",
             allow: "/",
+            disallow: [
+                "/*?*",        // Block query parameters (filter, sort, search)
+                "/api/",       // Block internal APIs
+            ]
         },
 
-        sitemap:
-            "https://centralbiomedicals.com/sitemap.xml",
+        sitemap: "https://haemoglobinstrip.com/sitemap.xml",
     };
 }

@@ -34,10 +34,12 @@ export default function ContactPage() {
     .split("/")
     .filter(Boolean);
 
+  const staticRoutes = ["about", "services", "items", "contact", "products"];
   const currentDistrict =
-    pathParts.length > 0
+    pathParts.length > 0 && !staticRoutes.includes(pathParts[0])
       ? pathParts[0]
       : null;
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -84,7 +86,7 @@ export default function ContactPage() {
         collection(
           db,
           "websitesQueries",
-          "centralbiomedicals",
+          "haemoglobinstripcom",
           "contactQueries"
         ),
         {
@@ -129,7 +131,7 @@ export default function ContactPage() {
           doc(
             db,
             "websites",
-            "centralbiomedicals",
+            "haemoglobinstripcom",
             "districts",
             currentDistrict
           )
@@ -152,7 +154,7 @@ export default function ContactPage() {
           doc(
             db,
             "websites",
-            "centralbiomedicals",
+            "haemoglobinstripcom",
             "pages",
             "contact"
           )
@@ -175,37 +177,37 @@ export default function ContactPage() {
 
 
 
-  const phone =
-    contactInfo.find(
-      (x) => x.label === "Phone Number"
-    )?.value || "";
+  const getContactField = (labels) => {
+    const found = contactInfo.find(
+      (x) => labels.some(l => x.label?.toLowerCase() === l.toLowerCase())
+    );
+    return found ? found.value : "";
+  };
 
-  const email =
-    contactInfo.find(
-      (x) => x.label === "Email Address"
-    )?.value || "";
-
-  const address =
-    contactInfo.find(
-      (x) => x.label === "Office Address"
-    )?.value || "";
-
-  const hours =
-    contactInfo.find(
-      (x) => x.label === "Working Hours"
-    )?.value || "";
+  const phone = getContactField(["phone", "phone number", "mobile", "mobile number"]);
+  const email = getContactField(["email", "email address"]);
+  const address = getContactField(["address", "office address", "address/office address"]);
+  const hours = getContactField(["working hours", "hours", "work hours"]);
 
   const dynamicAddress =
     districtData
       ? `${districtData.district}, ${districtData.state}, India`
       : address;
 
+  let phoneValues = [];
+  if (Array.isArray(phone)) {
+    phoneValues = phone.map(p => String(p).trim());
+  } else if (phone !== null && phone !== undefined && phone !== "") {
+    phoneValues = String(phone).split(/[\n,]+/).map(p => p.trim());
+  }
+
   const mapAddress = encodeURIComponent(
     dynamicAddress
   );
   if (loading) {
     return (
-      <section className="section-padding">
+      <div className="site3-static">
+<section className="section-padding">
         <div className="container-custom">
 
           <div className="grid lg:grid-cols-2 gap-12">
@@ -234,14 +236,15 @@ export default function ContactPage() {
 
         </div>
       </section>
+      </div>
     );
   }
   return (
-    <>
+    <div className="site3-static">
       {/* Banner */}
       <PageBanner
         title="Contact Us"
-        subtitle="Get in touch with Central Biomedicals for premium diagnostic and biomedical solutions."
+        subtitle="Get in touch with  Raj Biosis for premium diagnostic and biomedical solutions."
       />
 
       {/* Contact Section */}
@@ -270,39 +273,46 @@ export default function ContactPage() {
             <div className="space-y-6 mt-10">
 
               <div className="flex items-start gap-5 bg-slate-50 p-6 rounded-[28px] border border-slate-100">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700 flex-shrink-0">
                   <Phone size={24} />
                 </div>
 
                 <div>
                   <h4 className="font-semibold text-lg">
-                    Phone Number
+                    Phone / WhatsApp
                   </h4>
 
-                  <p className="text-slate-600 mt-2">
-                    {phone}
-                  </p>
+                  <div className="text-slate-600 mt-2 flex flex-col">
+                    {phoneValues.map((num, idx) => (
+                      <a key={idx} href={`tel:${num}`} className="hover:text-sky-700 transition">
+                        {num}
+                      </a>
+                    ))}
+                    {phoneValues.length === 0 && <p>N/A</p>}
+                  </div>
                 </div>
               </div>
 
               <div className="flex items-start gap-5 bg-slate-50 p-6 rounded-[28px] border border-slate-100">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700 flex-shrink-0">
                   <Mail size={24} />
                 </div>
 
                 <div>
                   <h4 className="font-semibold text-lg">
-                    Email Address
+                    Business Email ID
                   </h4>
 
                   <p className="text-slate-600 mt-2">
-                    {email}
+                    <a href={`mailto:${email}`} className="hover:text-sky-700 transition">
+                      {email}
+                    </a>
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-5 bg-slate-50 p-6 rounded-[28px] border border-slate-100">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700 flex-shrink-0">
                   <MapPin size={24} />
                 </div>
 
@@ -318,7 +328,7 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start gap-5 bg-slate-50 p-6 rounded-[28px] border border-slate-100">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-700 flex-shrink-0">
                   <Clock3 size={24} />
                 </div>
 
@@ -340,7 +350,7 @@ export default function ContactPage() {
           <div className="bg-white rounded-[40px] p-8 lg:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
 
             <h3 className="text-3xl font-bold text-slate-900">
-              Send Us Message
+              Ask About Hb Testing Supplies
             </h3>
 
             <p className="text-slate-500 mt-3">
@@ -356,7 +366,7 @@ export default function ContactPage() {
               <input
                 type="text"
                 name="name"
-                placeholder="Full Name"
+                placeholder="Contact Person"
                 value={form.name}
                 onChange={handleChange}
                 className="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-sky-600"
@@ -365,7 +375,7 @@ export default function ContactPage() {
               <input
                 type="email"
                 name="email"
-                placeholder="Email Address"
+                placeholder="Business Email ID"
                 value={form.email}
                 onChange={handleChange}
                 className="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-sky-600"
@@ -374,7 +384,7 @@ export default function ContactPage() {
               <input
                 type="tel"
                 name="phone"
-                placeholder="Phone Number"
+                placeholder="Phone / WhatsApp"
                 maxLength={10}
                 value={form.phone}
                 onChange={(e) =>
@@ -389,7 +399,7 @@ export default function ContactPage() {
               <input
                 type="text"
                 name="subject"
-                placeholder="Subject"
+                placeholder="Supply Enquiry"
                 value={form.subject}
                 onChange={handleChange}
                 className="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-sky-600"
@@ -398,7 +408,7 @@ export default function ContactPage() {
               <textarea
                 rows={5}
                 name="message"
-                placeholder="Your Message"
+                placeholder="Tell us about your testing needs"
                 value={form.message}
                 onChange={handleChange}
                 className="w-full border border-slate-200 rounded-2xl px-5 py-4 outline-none focus:border-sky-600 resize-none"
@@ -438,6 +448,6 @@ export default function ContactPage() {
 
       {/* CTA */}
       <CTASection />
-    </>
+    </div>
   );
 }

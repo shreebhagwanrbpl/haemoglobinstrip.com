@@ -228,3 +228,41 @@ header {
       transparent);
   animation: shimmer 1.8s infinite;
 }
+
+/* Print styles for brochure */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #brochure-print-template, #brochure-print-template * {
+    visibility: visible !important;
+  }
+  #brochure-print-template {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    display: block !important;
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+
+/* SITE 3 — charcoal / lime diagnostic */
+.site3-static{--sv-accent:#65a30d;--sv-deep:#1c1917;--sv-soft:#f7fee7}
+.site3-static h1,.site3-static h2,.site3-static h3{letter-spacing:-.045em}
+.site3-static section{background:#fafaf9!important}
+.site3-static section:nth-of-type(2n){background:#f4f4f5!important}
+.site3-static .container-custom{max-width:1160px}
+.site3-static .rounded-3xl,.site3-static [class~="rounded-[40px]"]{border-radius:12px!important}
+.site3-static .card-shadow{box-shadow:8px 12px 0 rgba(101,163,13,.10)!important}
+.site3-static button{border-radius:8px!important}
+.site3-static input,.site3-static textarea{border-radius:8px!important}
+.site3-static section:has(form) .container-custom{grid-template-columns:1.3fr .7fr}
+.site3-static section:has(form) .container-custom>div:last-child{background:#18181b!important;color:white;border-radius:12px!important}
+.site3-static section:has(form) label{color:inherit}
+.site3-static iframe{border-radius:12px!important;filter:grayscale(.35)}
+

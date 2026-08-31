@@ -7,22 +7,22 @@ export default function Testimonials() {
   const reviews = [
     {
       name: "Dr. Rajesh Kumar",
-      role: "Healthcare Specialist",
+      role: "Community Health Lead",
       review:
-        "Central Biomedicals has consistently delivered reliable diagnostic equipment with outstanding support.",
+        "The Mission Hb meters and strips we ordered have greatly simplified point-of-care anemia screening in our field camps.",
     },
     {
       name: "Amit Sharma",
-      role: "Lab Director",
+      role: "Diagnostics Lab Head",
       review:
-        "Professional service, premium products, and excellent biomedical consultation experience.",
+        "Highly reliable hemoglobin test strips with excellent calibration support. Uptime of our screening devices is near 100%.",
     },
     {
       name: "Neha Verma",
-      role: "Research Head",
+      role: "Blood Bank Supervisor",
       review:
-        "Their healthcare solutions improved our laboratory efficiency significantly.",
-    },
+        "Fast delivery of microcuvettes and control solutions. Excellent point-of-care diagnostics partner.",
+    }
   ];
 
   return (
@@ -30,9 +30,9 @@ export default function Testimonials() {
       <div className="container-custom">
 
         <SectionTitle
-          badge="Testimonials"
-          title="What Our Clients Say"
-          description="Trusted by healthcare professionals, laboratories, and biomedical institutions."
+          badge="User Feedback"
+          title="Trusted by Health Workers"
+          description="Used by community health workers, blood donor banks, and diagnostic technicians."
           center
         />
 

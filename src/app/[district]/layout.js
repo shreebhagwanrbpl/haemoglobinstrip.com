@@ -1,24 +1,28 @@
+import { fetchDistrictData } from "@/lib/data-fetcher";
+import { notFound } from "next/navigation";
+
 export async function generateMetadata({ params }) {
+  const { district } = await params;
+  const districtData = await fetchDistrictData(district);
 
-  const { district = "jaipur" } = await params;
+  if (!districtData) {
+    return {};
+  }
 
-  const districtName = district
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-
-  const url = `https://centralbiomedical.com/${district}`;
+  const districtName = districtData.district;
+  const url = `https://haemoglobinstrip.com/${district}`;
 
   return {
-    title: `Biomedical & Diagnostic Equipment Supplier in ${districtName} | Central Biomedical`,
+    title: `Hemoglobin Test Strips & Hb Meters in ${districtName}`,
 
-    description: `Central Biomedical supplies diagnostic machines, laboratory equipment, reagents and biomedical products in ${districtName}.`,
+    description: `Raj Biosis supplies hemoglobin test strips, digital Hb meters, and anemia testing consumables in ${districtName}.`,
 
     keywords: [
-      `Biomedical Equipment ${districtName}`,
-      `Diagnostic Machines ${districtName}`,
-      `Laboratory Equipment ${districtName}`,
-      `Pathology Equipment ${districtName}`,
-      `Biomedical Supplier ${districtName}`,
+      `Hemoglobin Strips ${districtName}`,
+      `Hb Meters ${districtName}`,
+      `Anemia Test Kits ${districtName}`,
+      `Mission Hb ${districtName}`,
+      `HemoCue Strips ${districtName}`,
     ],
 
     robots: {
@@ -31,14 +35,21 @@ export async function generateMetadata({ params }) {
     },
 
     openGraph: {
-      title: `Biomedical Equipment in ${districtName}`,
-      description: `Diagnostic laboratory equipment supplier in ${districtName}.`,
+      title: `Hemoglobin Test Strips & Hb Meters in ${districtName}`,
+      description: `Raj Biosis supplies hemoglobin test strips, digital Hb meters, and anemia testing consumables in ${districtName}.`,
       url,
       type: "website",
     },
   };
 }
 
-export default function DistrictLayout({ children }) {
+export default async function DistrictLayout({ children, params }) {
+  const { district } = await params;
+  const districtData = await fetchDistrictData(district);
+
+  if (!districtData) {
+    notFound();
+  }
+
   return children;
 }

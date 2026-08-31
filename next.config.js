@@ -15,6 +15,25 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    workerThreads: false,
+    cpus: 1,
+  },
+  async redirects() {
+    return [
+      {
+        source: "/products",
+        destination: "/items",
+        permanent: true,
+      },
+      {
+        source: "/products/:slug*",
+        destination: "/items/:slug*",
+        permanent: true,
+      },
+    ];
+  },
 };
+
 
 export default nextConfig;
