@@ -2,8 +2,8 @@ import ServicesClient from "./ServicesClient";
 import { getGlobalMetadata } from "@/lib/seo";
 
 export const metadata = getGlobalMetadata({
-  title: "Biomedical & Laboratory Equipment Services | Raj Biosis",
-  description: "Expert technical support, maintenance, calibration and installation services for diagnostic machines and laboratory equipment.",
+  title: "Biomedical Procurement & Product Support | Raj Biosis",
+  description: "Assistance with biomedical equipment, diagnostic products, laboratory supplies, reagents, consumables and multi-item healthcare requirements.",
   canonical: "/services",
 });
 

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { useState, useEffect } from "react";
+import { db, doc, collection, getDoc, getDocs, addDoc, onSnapshot } from "@/lib/firestore-shim";
+import { WEBSITE_ID } from "@/lib/catalog-utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -12,11 +12,8 @@ import {
 } from "lucide-react";
 
 export default function Footer() {
-  const [contactInfo, setContactInfo] =
-    useState([]);
-  const [loading, setLoading] = useState(true);
-  const [districtData, setDistrictData] =
-    useState(null);
+  const [contactInfo, setContactInfo] = useState([]);
+  const [districtData, setDistrictData] = useState(null);
 
   const pathname = usePathname();
 
@@ -45,22 +42,19 @@ export default function Footer() {
           doc(
             db,
             "websites",
-            "haemoglobinstripcom",
+            WEBSITE_ID,
             "pages",
             "contact"
           )
         );
 
-        if (snap.exists()) {
+        if (snap.exists() && snap.data()?.contactInfo) {
           setContactInfo(
             snap.data().contactInfo || []
           );
         }
-
-        setLoading(false);
       } catch (err) {
-        console.log(err);
-        setLoading(false);
+        console.error("Footer contact load error:", err);
       }
     };
 
@@ -76,7 +70,7 @@ export default function Footer() {
           doc(
             db,
             "websites",
-            "haemoglobinstripcom",
+            WEBSITE_ID,
             "districts",
             district
           )
@@ -86,7 +80,7 @@ export default function Footer() {
           setDistrictData(snap.data());
         }
       } catch (err) {
-        console.log(err);
+        console.error("Footer district load error:", err);
       }
     };
 
@@ -94,6 +88,30 @@ export default function Footer() {
   }, [district]);
 
   const [categories, setCategories] = useState([]);
+  const [servicesList, setServicesList] = useState([]);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const snap = await getDoc(
+          doc(
+            db,
+            "websites",
+            WEBSITE_ID,
+            "pages",
+            "services"
+          )
+        );
+
+        if (snap.exists() && Array.isArray(snap.data()?.services)) {
+          setServicesList(snap.data().services);
+        }
+      } catch (err) {
+        console.error("Footer services load error:", err);
+      }
+    };
+    loadServices();
+  }, []);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -122,19 +140,23 @@ export default function Footer() {
   };
 
   const phone = getContactField(["phone", "phone number", "mobile", "mobile number"]);
-  const email = getContactField(["email", "email address"]);
-  const address = getContactField(["address", "office address", "address/office address"]);
+  const email = getContactField(["email", "email address"]) || "mail@rajbiosis.com";
+  const rawAddress = getContactField(["address", "office address", "address/office address"]) || "F-4, 1st Floor, Plot No. 16, D-Block Tagor Nagar, Ajmer-Delhi Bypass Rd, Jaipur, Rajasthan 302021, India";
 
   const dynamicAddress =
     districtData
       ? `${districtData.district}, ${districtData.state}, India`
-      : address;
+      : rawAddress;
 
   let phoneValues = [];
-  if (Array.isArray(phone)) {
-    phoneValues = phone.map(p => String(p).trim());
+  if (Array.isArray(phone) && phone.length > 0) {
+    phoneValues = phone.map(p => String(p).trim()).filter(Boolean);
   } else if (phone !== null && phone !== undefined && phone !== "") {
-    phoneValues = String(phone).split(/[\n,]+/).map(p => p.trim());
+    phoneValues = String(phone).split(/[\n,]+/).map(p => p.trim()).filter(Boolean);
+  }
+
+  if (phoneValues.length === 0) {
+    phoneValues = ["+91 8318368383", "+91 9983123469"];
   }
 
   const makeLink = (path) => {
@@ -146,59 +168,6 @@ export default function Footer() {
 
     return `/${district}${path}`;
   };
-
-  if (loading) {
-    return (
-      <footer className="bg-white border-t border-slate-200">
-        <div className="container-custom py-16">
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-
-            <div className="lg:col-span-3">
-              <div className="h-8 w-40 bg-slate-200 rounded animate-pulse mb-6" />
-              {[...Array(3)].map((_, j) => (
-                <div key={j} className="h-5 bg-slate-200 rounded animate-pulse mb-4" />
-              ))}
-            </div>
-
-            <div className="lg:col-span-2">
-              <div className="h-8 w-32 bg-slate-200 rounded animate-pulse mb-6" />
-              {[...Array(4)].map((_, j) => (
-                <div key={j} className="h-5 bg-slate-200 rounded animate-pulse mb-4" />
-              ))}
-            </div>
-
-            <div className="lg:col-span-2">
-              <div className="h-8 w-32 bg-slate-200 rounded animate-pulse mb-6" />
-              {[...Array(4)].map((_, j) => (
-                <div key={j} className="h-5 bg-slate-200 rounded animate-pulse mb-4" />
-              ))}
-            </div>
-
-            <div className="lg:col-span-2">
-              <div className="h-8 w-32 bg-slate-200 rounded animate-pulse mb-6" />
-              {[...Array(4)].map((_, j) => (
-                <div key={j} className="h-5 bg-slate-200 rounded animate-pulse mb-4" />
-              ))}
-            </div>
-
-            <div className="lg:col-span-3">
-              <div className="h-8 w-40 bg-slate-200 rounded animate-pulse mb-6" />
-              {[...Array(3)].map((_, j) => (
-                <div key={j} className="h-5 bg-slate-200 rounded animate-pulse mb-4" />
-              ))}
-            </div>
-
-          </div>
-
-          <div className="border-t border-slate-200 mt-12 pt-6">
-            <div className="h-5 w-72 bg-slate-200 rounded animate-pulse" />
-          </div>
-
-        </div>
-      </footer>
-    );
-  }
 
   return (
     <footer className="bg-white border-t border-slate-200">
@@ -304,10 +273,33 @@ export default function Footer() {
             </h3>
 
             <div className="flex flex-col gap-3 text-slate-600">
-              <p>Hemoglobin Test Strips</p>
-              <p>Anemia Screening Kits</p>
-              <p>Point-of-Care Hb Meters</p>
-              <p>Meter Calibration Support</p>
+              {servicesList.length > 0 ? (
+                servicesList.slice(0, 5).map((srv, idx) => (
+                  <Link
+                    key={idx}
+                    href={makeLink("/services")}
+                    className="hover:text-sky-700 transition line-clamp-1"
+                    title={srv.title || srv.name}
+                  >
+                    {srv.title || srv.name}
+                  </Link>
+                ))
+              ) : (
+                <>
+                  <Link href={makeLink("/services")} className="hover:text-sky-700 transition">
+                    Analyzer Calibration & AMC
+                  </Link>
+                  <Link href={makeLink("/services")} className="hover:text-sky-700 transition">
+                    Laboratory Automation
+                  </Link>
+                  <Link href={makeLink("/services")} className="hover:text-sky-700 transition">
+                    Technical Application Support
+                  </Link>
+                  <Link href={makeLink("/services")} className="hover:text-sky-700 transition">
+                    Cold-Chain Reagent Logistics
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 

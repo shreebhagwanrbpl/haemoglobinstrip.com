@@ -1,5 +1,5 @@
 import Home from "@/app/page";
-import { fetchDistrictData } from "@/lib/data-fetcher";
+import { fetchDistrictData } from "@/lib/data-fetcher-server";
 import { notFound } from "next/navigation";
 import { getLocalBusinessSchema } from "@/lib/seo";
 

@@ -1,29 +1,21 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
-import toast from "react-hot-toast";
-
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-
-import {
-    FaPlay,
-    FaShareAlt,
-    FaWhatsapp,
-    FaFacebook,
-    FaInstagram,
-    FaLink,
-} from "react-icons/fa";
-
-import {
-    doc,
-    getDoc,
-    addDoc,
-    collection,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { fetchFullCatalog } from "@/lib/data-fetcher";
+import Image from "next/image";
+import { toast } from "react-hot-toast";
 import { Download } from "lucide-react";
+import {
+  FaPlay,
+  FaShareAlt,
+  FaLink,
+  FaWhatsapp,
+  FaFacebook,
+  FaInstagram
+} from "react-icons/fa";
+import { WEBSITE_ID } from "@/lib/catalog-utils";
+import { db, doc, collection, getDoc, getDocs, addDoc, onSnapshot } from "@/lib/firestore-shim";
+import { fetchFullCatalog } from "@/lib/data-fetcher";
 export default function ProductDetails({ slug, district }) {
     const [product, setProduct] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -93,7 +85,7 @@ export default function ProductDetails({ slug, district }) {
         const loadContact = async () => {
             try {
                 const snap = await getDoc(
-                    doc(db, "websites", "haemoglobinstripcom", "pages", "contact")
+                    doc(db, "websites", WEBSITE_ID, "pages", "contact")
                 );
                 if (snap.exists()) {
                     const info = snap.data().contactInfo || [];
@@ -115,7 +107,7 @@ export default function ProductDetails({ slug, district }) {
             if (!district) return;
             try {
                 const snap = await getDoc(
-                    doc(db, "websites", "haemoglobinstripcom", "districts", district)
+                    doc(db, "websites", WEBSITE_ID, "districts", district)
                 );
                 if (snap.exists()) {
                     setDistrictData(snap.data());

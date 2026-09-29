@@ -9,8 +9,8 @@ import SeoContent from "@/components/SeoContent";
 import { getGlobalMetadata } from "@/lib/seo";
 
 export const metadata = getGlobalMetadata({
-  title: "Biomedical & Laboratory Equipment Supplier in India",
-  description: "Raj Biosis supplies CBC machines, hematology analyzers, biochemistry analyzers, ELISA readers, and laboratory equipment for healthcare facilities across India.",
+  title: "Biomedical Products, Laboratory Equipment & Diagnostic Supplies in India",
+  description: "Explore a multi-category biomedical catalogue covering laboratory equipment, diagnostic products, test kits, reagents, consumables, monitoring devices and healthcare supplies.",
   canonical: "/",
 });
 

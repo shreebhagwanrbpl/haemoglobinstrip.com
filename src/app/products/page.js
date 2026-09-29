@@ -24,7 +24,7 @@ export default function ProductsPage() {
     {
       category: "Electrolyte Reagents",
       title: "Roche 9180 Electrolyte Reagent",
-      image: "/images/product-1.jpg",
+      image: "/Homepage.png",
       description:
         "Precision electrolyte reagent suitable for compatible Roche analyzer systems.",
       brand: "Roche",
@@ -35,7 +35,7 @@ export default function ProductsPage() {
     {
       category: "Electrolyte Reagents",
       title: "ERBA EC 90 Reagent",
-      image: "/images/product-2.jpg",
+      image: "/Homepage.png",
       description:
         "Premium quality electrolyte reagent.",
       brand: "ERBA",
@@ -46,7 +46,7 @@ export default function ProductsPage() {
     {
       category: "Rapid Test Kits",
       title: "COVID Rapid Test Kit",
-      image: "/images/product-3.jpg",
+      image: "/Homepage.png",
       description:
         "Fast and reliable rapid testing solution.",
       brand: "Bio",
@@ -57,7 +57,7 @@ export default function ProductsPage() {
     {
       category: "Rapid Test Kits",
       title: "Dengue Rapid Kit",
-      image: "/images/product-4.jpg",
+      image: "/Homepage.png",
       description:
         "High sensitivity dengue rapid test.",
       brand: "Bio",
@@ -68,7 +68,7 @@ export default function ProductsPage() {
     {
       category: "Hematology",
       title: "Hematology Reagent",
-      image: "/images/product-5.jpg",
+      image: "/Homepage.png",
       description:
         "Premium hematology solution.",
       brand: "Mindray",

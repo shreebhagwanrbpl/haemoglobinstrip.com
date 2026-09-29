@@ -23,7 +23,7 @@ const ProductLink = memo(function ProductLink({ item, category, scrollToProduct 
   return (
     <button
       onClick={() => scrollToProduct(item.slug, category)}
-      className="block w-full text-left py-1 text-sm text-slate-500 hover:text-[#0369A1] hover:translate-x-1 transition-all duration-200 font-medium"
+      className="block w-full text-left py-1 text-sm text-slate-600 hover:text-sky-700 hover:translate-x-1 transition-all duration-200 font-medium"
     >
       • {item.title}
     </button>
@@ -44,15 +44,15 @@ const SubCategoryItem = memo(function SubCategoryItem({
       {/* Subcategory Header */}
       <button
         onClick={() => toggleSubCategory(category, subCategory)}
-        className="w-full text-left py-1.5 flex justify-between items-center text-xs font-bold text-[#0369A1] hover:text-fuchsia-600 transition-colors uppercase tracking-wider border-b border-[#E2E8F0] pb-1"
+        className="w-full text-left py-1.5 flex justify-between items-center text-xs font-bold text-slate-700 hover:text-sky-700 transition-colors uppercase tracking-wider border-b border-slate-200 pb-1"
       >
         <span className="flex items-center gap-1.5">
           <span className={`transition-transform duration-200 ${isSubOpened ? "rotate-90" : ""}`}>
-            <ChevronRight size={12} className="text-[#0369A1]" />
+            <ChevronRight size={12} className="text-sky-700" />
           </span>
           {subCategory}
         </span>
-        <span className="text-[10px] font-semibold bg-[#F0F9FF] text-[#0369A1] px-1.5 py-0.5 rounded-full">
+        <span className="text-[10px] font-semibold bg-sky-50 text-sky-700 px-1.5 py-0.5 rounded-full">
           {subList.length}
         </span>
       </button>
@@ -103,8 +103,8 @@ const CategoryItem = memo(function CategoryItem({
     <div className="group">
       <div
         className={`sticky top-[116px] z-10 w-full px-4 py-3 flex justify-between items-center rounded-2xl transition-all duration-200 text-left ${isActive
-          ? "bg-[#F0F9FF] text-[#0369A1] font-bold"
-          : "bg-white text-indigo-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-fuchsia-50 hover:text-[#0369A1]"
+          ? "bg-sky-50 text-sky-800 font-bold border-l-4 border-sky-600"
+          : "bg-white text-slate-800 hover:bg-slate-50 hover:text-sky-700"
           }`}
       >
         <span className="flex items-center gap-3 text-sm font-semibold leading-none flex-1">
@@ -114,14 +114,14 @@ const CategoryItem = memo(function CategoryItem({
             type="button"
           >
             <span className={`block transition-transform duration-200 ${isOpened ? "rotate-90" : ""}`}>
-              <ChevronRight size={16} className={isActive ? "text-[#0369A1]" : "text-slate-400 group-hover:text-[#0369A1]"} />
+              <ChevronRight size={16} className={isActive ? "text-sky-700" : "text-slate-400 group-hover:text-sky-700"} />
             </span>
           </button>
-          <Link href={`/category/${catSlug}`} className="hover:text-fuchsia-600 transition-colors flex-1 py-1">
+          <Link href={`/category/${catSlug}`} className="hover:text-sky-700 transition-colors flex-1 py-1">
             {category}
           </Link>
         </span>
-        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isActive ? "bg-[#F0F9FF] text-[#0369A1]" : "bg-[#F0F9FF] text-slate-500"
+        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isActive ? "bg-sky-100 text-sky-800" : "bg-slate-100 text-slate-600"
           }`}>
           {categoryProductCount}
         </span>
@@ -429,12 +429,12 @@ export default function ProductsClient({ initialProducts = [], district = null, 
         {/* Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)] gap-6 lg:gap-10 mt-8 lg:mt-16 items-start px-4 lg:px-0">
           {/* Main Sidebar (Only scrollable container for the sidebar) */}
-          <aside className="lg:sticky lg:top-24 self-start rounded-[32px] border border-[#E2E8F0] bg-white shadow-[0_20px_45px_rgba(123,30,58,0.10)] px-6 pb-6 pt-0 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative">
+          <aside className="lg:sticky lg:top-24 self-start rounded-3xl border border-slate-200 bg-white shadow-sm px-6 pb-6 pt-0 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar relative">
             {/* Sticky Header Section */}
-            <div className="sticky top-0 -mx-6 pt-6 px-6 pb-3 bg-white z-20 border-b border-[#E2E8F0] mb-4 h-[116px]">
-              <h3 className="text-xl font-bold text-[#0F172A] mb-3 flex items-center justify-between">
+            <div className="sticky top-0 -mx-6 pt-6 px-6 pb-3 bg-white z-20 border-b border-slate-200 mb-4 h-[116px]">
+              <h3 className="text-xl font-bold text-slate-900 mb-3 flex items-center justify-between">
                 <span>Categories</span>
-                <span className="text-xs bg-[#F0F9FF] text-slate-500 font-semibold px-2 py-0.5 rounded-full">
+                <span className="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-0.5 rounded-full">
                   {Object.keys(sortedGroupedProducts).length}
                 </span>
               </h3>
@@ -450,7 +450,7 @@ export default function ProductsClient({ initialProducts = [], district = null, 
                   placeholder="Search categories..."
                   value={categorySearch}
                   onChange={(e) => setCategorySearch(e.target.value)}
-                  className="w-full h-10 pl-10 pr-4 rounded-xl border border-[#E2E8F0] bg-[#F0F9FF] text-sm focus:outline-none focus:ring-2 focus:ring-[#0369A1] focus:bg-white transition-all"
+                  className="w-full h-10 pl-10 pr-4 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 focus:bg-white transition-all"
                 />
               </div>
             </div>
